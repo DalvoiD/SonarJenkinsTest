@@ -4,10 +4,14 @@ pipeline {
     buildDiscarder(logRotator(numToKeepStr: '5'))
   }
   stages {
+    stage('Setting the variables values') {
+      steps {
+         sh 'chmod +x mvnw'
+      }
+    }
     stage('Scan') {
       steps {
         withSonarQubeEnv(installationName: 'SQ1') {
-          chmod +x mvnw
           sh './mvnw clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
         }
       }
